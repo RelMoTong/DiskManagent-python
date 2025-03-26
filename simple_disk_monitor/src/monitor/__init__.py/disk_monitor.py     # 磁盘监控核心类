@@ -1,0 +1,41 @@
+class DiskMonitor:
+    def __init__(self, config):
+        self.config = config
+        self.running = False
+        self.alert_states = {}
+        self.alert_windows = {}
+
+    def start_monitoring(self):
+        """Start monitoring disk usage."""
+        self.running = True
+        # Start the monitoring thread here
+
+    def stop_monitoring(self):
+        """Stop monitoring disk usage."""
+        self.running = False
+        # Stop the monitoring thread here
+
+    def check_disk_usage(self):
+        """Check the disk usage and return the status."""
+        # Implement disk usage checking logic here
+        pass
+
+    def show_alert(self, drive_info):
+        """Show an alert for the specified drive."""
+        # Implement alert display logic here
+        pass
+
+    def reset_alert_state(self, drive=None, level=None):
+        """Reset the alert state for the specified drive and level."""
+        # Implement alert state reset logic here
+        pass
+
+    def get_drives_to_monitor(self):
+        """Get the list of drives to monitor based on the configuration."""
+        # Implement logic to retrieve drives to monitor
+        pass
+
+    def get_disk_usage(self, drive):
+        """Get the disk usage for the specified drive."""
+        # Implement logic to retrieve disk usage
+        pass

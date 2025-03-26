@@ -1,0 +1,13 @@
+class SingleInstance:
+    def __init__(self, name):
+        self.name = name
+        self.mutex = None
+
+    def check(self):
+        # Check if another instance is running
+        # Implement platform-specific logic here
+        pass
+
+    def release(self):
+        # Release the mutex
+        pass

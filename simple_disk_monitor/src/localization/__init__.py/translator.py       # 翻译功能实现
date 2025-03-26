@@ -1,0 +1,25 @@
+# 翻译功能实现
+
+class Translator:
+    def __init__(self, language='zh_CN'):
+        self.language = language
+        self.translations = self.load_translations()
+
+    def load_translations(self):
+        if self.language == 'zh_CN':
+            from .languages.zh_CN import translations as lang_translations
+        elif self.language == 'en_US':
+            from .languages.en_US import translations as lang_translations
+        else:
+            raise ValueError(f"Unsupported language: {self.language}")
+        return lang_translations
+
+    def translate(self, key, *args):
+        """根据键获取翻译，并格式化参数"""
+        translation = self.translations.get(key, key)
+        return translation.format(*args) if args else translation
+
+    def set_language(self, language):
+        """设置新的语言并重新加载翻译"""
+        self.language = language
+        self.translations = self.load_translations()

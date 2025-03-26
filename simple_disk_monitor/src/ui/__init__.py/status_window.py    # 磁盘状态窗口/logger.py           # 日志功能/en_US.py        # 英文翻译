@@ -1,0 +1,77 @@
+# src/ui/status_window.py
+
+import tkinter as tk
+from tkinter import ttk
+
+class StatusWindow:
+    def __init__(self, master):
+        self.master = master
+        self.master.title("Disk Status")
+        self.master.geometry("400x300")
+        
+        self.create_widgets()
+
+    def create_widgets(self):
+        self.label = ttk.Label(self.master, text="Current Disk Status", font=("Arial", 16))
+        self.label.pack(pady=10)
+
+        self.status_frame = ttk.Frame(self.master)
+        self.status_frame.pack(pady=10)
+
+        self.status_list = tk.Listbox(self.status_frame, width=50, height=10)
+        self.status_list.pack(side=tk.LEFT, fill=tk.BOTH)
+
+        self.scrollbar = ttk.Scrollbar(self.status_frame, orient=tk.VERTICAL, command=self.status_list.yview)
+        self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+        self.status_list.config(yscrollcommand=self.scrollbar.set)
+
+    def update_status(self, status_info):
+        self.status_list.delete(0, tk.END)
+        for status in status_info:
+            self.status_list.insert(tk.END, status)
+
+# src/utils/logger.py
+
+import logging
+
+def setup_logger(log_file):
+    logging.basicConfig(
+        filename=log_file,
+        level=logging.INFO,
+        format="%(asctime)s - %(levelname)s - %(message)s",
+        encoding='utf-8'
+    )
+
+def log_info(message):
+    logging.info(message)
+
+def log_error(message):
+    logging.error(message)
+
+# src/localization/languages/en_US.py
+
+translations = {
+    "app_name": "Disk Monitor",
+    "check_now": "Check Now",
+    "settings": "Settings",
+    "exit": "Exit",
+    "error": "Error",
+    "error_occurred": "An error occurred: {}",
+    "disk_status": "Disk Status",
+    "usage": "Usage",
+    "total_space": "Total Space",
+    "used_space": "Used Space",
+    "free_space": "Free Space",
+    "ok": "OK",
+    "yes": "Yes",
+    "no": "No",
+    "warning_title": "Warning",
+    "warning_message": "Disk {} is at {}% usage.",
+    "critical_title": "Critical Alert",
+    "critical_message": "Disk {} is critically full at {}%.",
+    "notice_title": "Notice",
+    "notice_message": "Disk {} is at {}% usage. Please consider cleaning up.",
+    "clean_confirm": "Confirm Cleanup",
+    "warning_confirm": "Do you want to ignore this warning for disk {}?",
+}

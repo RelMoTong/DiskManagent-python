@@ -1,0 +1,13 @@
+{
+    "critical_threshold": 95,
+    "warning_threshold": 75,
+    "notice_threshold": 30,
+    "check_interval": 1.0,
+    "silent_mode": false,
+    "run_at_startup": false,
+    "language": "zh_CN",
+    "drives_to_monitor": [
+        "D:\\",
+        "Y:\\"
+    ]
+}

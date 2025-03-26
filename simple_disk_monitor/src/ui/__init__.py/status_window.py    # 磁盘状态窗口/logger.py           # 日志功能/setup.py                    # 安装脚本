@@ -1,0 +1,72 @@
+# src/ui/status_window.py
+
+import tkinter as tk
+from tkinter import ttk
+
+class StatusWindow:
+    def __init__(self, master):
+        self.master = master
+        self.master.title("Disk Status")
+        self.master.geometry("500x400")
+        
+        self.create_widgets()
+
+    def create_widgets(self):
+        self.label = ttk.Label(self.master, text="Current Status of Monitored Disks")
+        self.label.pack(pady=10)
+
+        self.status_frame = ttk.Frame(self.master)
+        self.status_frame.pack(fill=tk.BOTH, expand=True)
+
+        self.treeview = ttk.Treeview(self.status_frame, columns=("Drive", "Usage", "Status"), show="headings")
+        self.treeview.heading("Drive", text="Drive")
+        self.treeview.heading("Usage", text="Usage (%)")
+        self.treeview.heading("Status", text="Status")
+        self.treeview.pack(fill=tk.BOTH, expand=True)
+
+        self.close_button = ttk.Button(self.master, text="Close", command=self.master.destroy)
+        self.close_button.pack(pady=10)
+
+# src/utils/logger.py
+
+import logging
+
+def setup_logger(log_file):
+    logging.basicConfig(
+        filename=log_file,
+        level=logging.INFO,
+        format="%(asctime)s - %(levelname)s - %(message)s",
+        encoding='utf-8'
+    )
+
+def log_info(message):
+    logging.info(message)
+
+def log_error(message):
+    logging.error(message)
+
+def log_critical(message):
+    logging.critical(message)
+
+# setup.py
+
+from setuptools import setup, find_packages
+
+setup(
+    name="simple_disk_monitor",
+    version="0.1",
+    packages=find_packages(where="src"),
+    package_dir={"": "src"},
+    install_requires=[
+        "psutil",
+        "pystray",
+        "Pillow",
+        "tkinter"
+    ],
+    entry_points={
+        'console_scripts': [
+            'disk_monitor=main:main',
+        ],
+    },
+    python_requires='>=3.6',
+)

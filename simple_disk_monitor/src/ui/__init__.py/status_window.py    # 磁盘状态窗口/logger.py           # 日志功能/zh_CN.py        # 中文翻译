@@ -1,0 +1,68 @@
+# src/ui/status_window.py
+
+import tkinter as tk
+from tkinter import ttk
+
+class StatusWindow:
+    def __init__(self, master):
+        self.master = master
+        self.master.title("Disk Status")
+        self.create_widgets()
+
+    def create_widgets(self):
+        self.label = ttk.Label(self.master, text="Current Disk Status")
+        self.label.pack(pady=10)
+
+        self.status_frame = ttk.Frame(self.master)
+        self.status_frame.pack(pady=10)
+
+        self.treeview = ttk.Treeview(self.status_frame, columns=("Drive", "Usage"), show='headings')
+        self.treeview.heading("Drive", text="Drive")
+        self.treeview.heading("Usage", text="Usage (%)")
+        self.treeview.pack()
+
+        self.close_button = ttk.Button(self.master, text="Close", command=self.master.destroy)
+        self.close_button.pack(pady=10)
+
+# src/utils/logger.py
+
+import logging
+
+def setup_logger(log_file):
+    logging.basicConfig(
+        filename=log_file,
+        level=logging.INFO,
+        format="%(asctime)s - %(levelname)s - %(message)s",
+        encoding='utf-8'
+    )
+
+def log_info(message):
+    logging.info(message)
+
+def log_error(message):
+    logging.error(message)
+
+# src/localization/languages/zh_CN.py
+
+translations = {
+    "app_name": "磁盘监控器",
+    "disk_status": "磁盘状态",
+    "usage": "使用率",
+    "total_space": "总空间",
+    "used_space": "已用空间",
+    "free_space": "可用空间",
+    "ok": "确定",
+    "close": "关闭",
+    "error": "错误",
+    "error_occurred": "发生错误: {}",
+    "warning_title": "警告",
+    "warning_message": "{} 使用率过高: {}%",
+    "critical_title": "严重警告",
+    "critical_message": "{} 使用率达到 {}%，请清理空间。",
+    "notice_title": "提示",
+    "notice_message": "{} 使用率为 {}%，请注意。",
+    "clean_confirm": "确认清理",
+    "yes": "是",
+    "no": "否",
+    "warning_confirm": "您确定要继续吗？",
+}

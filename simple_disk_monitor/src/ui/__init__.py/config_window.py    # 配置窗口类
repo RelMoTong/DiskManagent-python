@@ -1,0 +1,56 @@
+from tkinter import Toplevel, Label, Button, Frame, StringVar, Entry, Checkbutton, IntVar, messagebox
+import json
+import os
+
+class ConfigWindow(Toplevel):
+    def __init__(self, monitor, parent=None):
+        super().__init__(parent)
+        self.monitor = monitor
+        self.title("配置设置")
+        self.geometry("400x300")
+        self.config = self.load_config()
+        self.create_widgets()
+        self.refresh_ui()
+
+    def create_widgets(self):
+        self.drive_label = Label(self, text="监控驱动器:")
+        self.drive_label.pack(pady=10)
+
+        self.drive_entry = Entry(self)
+        self.drive_entry.pack(pady=5)
+
+        self.silent_mode_var = IntVar()
+        self.silent_mode_check = Checkbutton(self, text="静默模式", variable=self.silent_mode_var)
+        self.silent_mode_check.pack(pady=5)
+
+        self.save_button = Button(self, text="保存", command=self.save_config)
+        self.save_button.pack(pady=20)
+
+    def toggle_drive_selection(self):
+        # Logic to toggle drive selection can be implemented here
+        pass
+
+    def apply_config(self):
+        self.monitor.config["drives_to_monitor"] = self.drive_entry.get().split(',')
+        self.monitor.config["silent_mode"] = bool(self.silent_mode_var.get())
+        self.monitor.apply_config()
+
+    def save_config(self):
+        self.apply_config()
+        self.save_to_file()
+
+    def refresh_ui(self):
+        self.drive_entry.delete(0, 'end')
+        self.drive_entry.insert(0, ','.join(self.config.get("drives_to_monitor", [])))
+        self.silent_mode_var.set(1 if self.config.get("silent_mode", False) else 0)
+
+    def load_config(self):
+        if os.path.exists(self.monitor.config_file):
+            with open(self.monitor.config_file, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        return {}
+
+    def save_to_file(self):
+        with open(self.monitor.config_file, 'w', encoding='utf-8') as f:
+            json.dump(self.monitor.config, f, ensure_ascii=False, indent=4)
+        messagebox.showinfo("保存成功", "配置已成功保存")

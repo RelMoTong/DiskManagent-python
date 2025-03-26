@@ -1,0 +1,16 @@
+# 程序入口点
+import sys
+from monitor.disk_monitor import DiskMonitor
+
+def main():
+    # 创建监控器实例
+    monitor = DiskMonitor()
+
+    # 启动监控
+    monitor.start_monitoring()
+
+    # 运行主事件循环
+    monitor.run()
+
+if __name__ == "__main__":
+    main()

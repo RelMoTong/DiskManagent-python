@@ -1,0 +1,48 @@
+# File: simple_disk_monitor/src/ui/alert_window.py
+
+import tkinter as tk
+from tkinter import messagebox
+
+class AlertWindow:
+    def __init__(self, parent, drive, usage):
+        self.parent = parent
+        self.drive = drive
+        self.usage = usage
+        self.window = None
+        self.create_alert_window()
+
+    def create_alert_window(self):
+        self.window = tk.Toplevel(self.parent)
+        self.window.title("Disk Usage Alert")
+        self.window.geometry("300x150")
+
+        message = f"Warning: Drive {self.drive} is at {self.usage}% usage!"
+        tk.Label(self.window, text=message, wraplength=250).pack(pady=20)
+
+        tk.Button(self.window, text="OK", command=self.close_window).pack(pady=10)
+
+    def close_window(self):
+        self.window.destroy()
+
+
+# File: simple_disk_monitor/src/ui/tray_icon.py
+
+import pystray
+from PIL import Image, ImageDraw
+
+class TrayIcon:
+    def __init__(self, icon_image, menu):
+        self.icon = pystray.Icon("disk_monitor", icon_image, "Disk Monitor", menu)
+
+    def create_image(self):
+        img = Image.new('RGBA', (64, 64), color=(0, 0, 0, 0))
+        d = ImageDraw.Draw(img)
+        d.rectangle((10, 25, 54, 45), fill=(0, 120, 215), outline=(255, 255, 255))
+        d.rectangle((20, 15, 44, 25), fill=(0, 70, 170), outline=(255, 255, 255))
+        for i in range(3):
+            y = 30 + i * 5
+            d.line((15, y, 49, y), fill=(200, 200, 200))
+        return img
+
+    def run(self):
+        self.icon.run()
